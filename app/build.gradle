@@ -5,19 +5,43 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'myKey'
+            keyPassword 'myPassword'
+            storeFile file('D:/Keys/key.jks')
+            storePassword 'myStorePassword'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "walot.softwaredesign"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode getVerCode()
+        versionName getVerName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "${applicationId}-${variant.versionName}.apk"
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        develop {
+            dimension "version"
+            versionNameSuffix '-dev'
+        }
+        master {
+            dimension "version"
         }
     }
 }
@@ -30,4 +54,31 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+static def getVerCode() {
+    def command = "git tag"
+    def process = command.execute()
+    def output = process.in.text
+
+    return output.count('.')
+}
+
+static def getVerName() {
+    def command = "git describe --tags"
+    def process = command.execute()
+    def output = process.in.text
+
+    if (output == "") {
+        return "0.0.0"
+    }
+    else if (output.contains('-')) {
+        def desc = output.split('-')
+        def ver = desc[0]
+        def patch = desc[1]
+
+        return "${ver}.${patch}"
+    }
+
+    return "${output.split('\n')[0]}.0"
 }

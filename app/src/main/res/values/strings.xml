@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SoftwareDesign</string>
+    <string name="no_permission">Project version: %1$s\n\nImei: Permission is not granted</string>
+    <string name="info">Project version: %1$s\n\nImei: %2$s</string>
 </resources>
