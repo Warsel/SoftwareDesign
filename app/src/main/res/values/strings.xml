@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SoftwareDesign</string>
-    <string name="no_permission">Project version: %1$s\n\nImei: Permission is not granted</string>
-    <string name="info">Project version: %1$s\n\nImei: %2$s</string>
+    <string name="imei_info">Imei: %1$s</string>
+    <string name="version_info">Версия проекта: %1$s</string>
+    <string name="clear">Ясно</string>
+    <string name="about_permission">\tНам необходим доступ к звонкам для того, чтобы показать вам индефикатор вашего устройства.\n\n\tЕсли вы хотите дать разрешение, то перейдите в Настройки->Приложения->SoftwareDesign->Разрешения.\nПосле дайте разрешение к звонкам.</string>
+    <string name="no_permission">Imei: Нет разрешения для чтения</string>
 </resources>

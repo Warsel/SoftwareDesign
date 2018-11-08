@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    compileSdkVersion 28
     signingConfigs {
         config {
             keyAlias 'myKey'
@@ -13,7 +14,6 @@ android {
             storePassword 'myStorePassword'
         }
     }
-    compileSdkVersion 28
     defaultConfig {
         applicationId "walot.softwaredesign"
         minSdkVersion 23
