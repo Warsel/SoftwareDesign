@@ -3,6 +3,13 @@
     <string name="imei_info">Imei: %1$s</string>
     <string name="version_info">Версия проекта: %1$s</string>
     <string name="clear">Ясно</string>
-    <string name="about_permission">\tНам необходим доступ к звонкам для того, чтобы показать вам индефикатор вашего устройства.\n\n\tЕсли вы хотите дать разрешение, то перейдите в Настройки->Приложения->SoftwareDesign->Разрешения.\nПосле дайте разрешение к звонкам.</string>
-    <string name="no_permission">Imei: Нет разрешения для чтения</string>
+    <string name="sure">Я уверен</string>
+    <string name="not_sure">Дать разрешение</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="about_permission">Нам необходим доступ к звонкам для того, чтобы показать вам индефикатор вашего устройства.\nВы хотите дать разрешение?</string>
+    <string name="about_permission_decline">Нам необходим доступ к звонкам для того, чтобы показать вам индефикатор вашего устройства.\nВы уверены, что не хотите дать это разрешение?</string>
+    <string name="set_permission_yourself">Вы запретили это разрешение вручную. Если вы хотите дать разрешение, то перейдите в Настройки->Приложения->SoftwareDesign->Разрешения.\nПосле дайте разрешение к звонкам.</string>
+    <string name="no_permission">Imei: Нажмите для получения</string>
+    <string name="get_imei">Получить imei</string>
 </resources>
