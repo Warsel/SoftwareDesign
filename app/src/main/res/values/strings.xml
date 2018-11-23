@@ -12,4 +12,7 @@
     <string name="set_permission_yourself">Вы запретили это разрешение вручную. Если вы хотите дать разрешение, то перейдите в Настройки->Приложения->SoftwareDesign->Разрешения.\nПосле дайте разрешение к звонкам.</string>
     <string name="no_permission">Imei: Нажмите для получения</string>
     <string name="get_imei">Получить imei</string>
+    
+    <string name="title_profile">Профиль</string>
+    <string name="title_something">Что-то</string>
 </resources>
