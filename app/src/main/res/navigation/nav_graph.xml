@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nav_graph" app:startDestination="@id/profileFragment">
+
+    <fragment android:id="@+id/profileFragment" android:name="walot.softwaredesign.fragments.ProfileFragment"
+              android:label="ProfileFragment">
+        <action android:id="@+id/action_profileFragment_to_editProfileFragment"
+                app:destination="@id/editProfileFragment"/><deepLink app:uri="sdapp://by.myapp/page/1"/>
+    </fragment>
+    <fragment android:id="@+id/pageFragment" android:name="walot.softwaredesign.fragments.PageFragment"
+              android:label="PageFragment"><deepLink app:uri="sdapp://by.myapp/page/2"/></fragment>
+    <fragment android:id="@+id/notPageFragment" android:name="walot.softwaredesign.fragments.NotPageFragment"
+              android:label="NotPageFragment"><deepLink app:uri="sdapp://by.myapp/page/3"/></fragment>
+    <fragment android:id="@+id/aboutFragment" android:name="walot.softwaredesign.fragments.AboutFragment"
+              android:label="AboutFragment"/>
+    <fragment android:id="@+id/editProfileFragment" android:name="walot.softwaredesign.fragments.EditProfileFragment"
+              android:label="EditProfileFragment"/>
+</navigation>
