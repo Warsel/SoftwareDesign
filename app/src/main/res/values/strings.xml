@@ -15,4 +15,22 @@
     
     <string name="title_profile">Профиль</string>
     <string name="title_something">Что-то</string>
+    <string name="profile">Профиль</string>
+    <string name="page">Страница</string>
+    <string name="not_page">Не страница</string>
+    <string name="about">О программе</string>
+    <string name="edit_profile">Редактировать</string>
+    <string name="save_profile">Сохранить</string>
+    <string name="name_hint">Имя</string>
+    <string name="surname_hint">Фамилия</string>
+    <string name="phone_number_hint">Номер телефона</string>
+    <string name="email_hint">Почтовый адрес</string>
+    <string name="load_image_from_gallery">Загрузить из галлереи</string>
+    <string name="make_photo">Сделать фото</string>
+
+    <string name="name">Имя:</string>
+    <string name="surname">Фамилия:</string>
+    <string name="phone_number">Телефон:</string>
+    <string name="email">Email:</string>
+    <string name="no_information">Нет информации</string>
 </resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "982752511753",
+    "firebase_url": "https://softwaredesign-4c2f1.firebaseio.com",
+    "project_id": "softwaredesign-4c2f1",
+    "storage_bucket": "softwaredesign-4c2f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982752511753:android:5e49076b09b7e47a",
+        "android_client_info": {
+          "package_name": "walot.softwaredesign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982752511753-4nar91ls7g3l1hlti62v1sqoqpu570r3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "walot.softwaredesign",
+            "certificate_hash": "cab6a790937cd47e4158b3d5133fd7eff446af3d"
+          }
+        },
+        {
+          "client_id": "982752511753-ktordk30ktau3mss6jfmirjgg0oolc07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUzP_3oUWq9UI585KJ4u4D5bIVQyNNEvo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982752511753-ktordk30ktau3mss6jfmirjgg0oolc07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
