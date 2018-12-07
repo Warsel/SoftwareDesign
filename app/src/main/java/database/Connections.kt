@@ -1,52 +1,53 @@
 package database
 
 import android.net.Uri
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import models.User
-import java.net.URI
+import java.io.File
 
+object Connections {
 
-class Connections {
-
-    private var database = FirebaseDatabase.getInstance()
-    private var storage = FirebaseStorage.getInstance()
-
-    private fun getUsersConnection(): DatabaseReference {
-        return database.getReference("users")
-    }
-
-    private fun getStorageConnection(): StorageReference {
-        return storage.getReference()
-    }
+    private var usersConnection = FirebaseDatabase.getInstance().getReference("users")
+    private var storageConnection = FirebaseStorage.getInstance().getReference("images")
 
     fun saveUser(user: User, image: Uri?) {
-        val userRef = getUsersConnection()
-        userRef.child("main_user").setValue(user)
+        usersConnection.child("main_user").setValue(user)
 
         if (image != null) {
-            val storageRef = getStorageConnection()
-            storageRef.child("images/rivers.jpg").putFile(image)
+            storageConnection.child("main_user.jpg").putFile(image)
         }
     }
 
-    fun getUser(call : (User) -> Unit) {
-        val userRef = getUsersConnection()
+    fun getUser(callUser : (User) -> Unit, callImage : (Uri) -> Unit) {
 
-        userRef.child("main_user").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
+        usersConnection.child("main_user").addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val user = p0.getValue(User::class.java)
                 if (user != null) {
-                    call(user)
+                    callUser(user)
                 }
             }
 
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
         })
+
+        val localFile = File.createTempFile("images", "jpg")
+
+        storageConnection.child("main_user.jpg").getFile(localFile)
+            .addOnSuccessListener {
+                val imageUri = Uri.fromFile(localFile)
+                callImage(imageUri)
+            }
     }
 
+    init {
+        usersConnection.keepSynced(false)
+    }
 }

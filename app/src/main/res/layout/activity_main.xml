@@ -12,8 +12,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBlueDark"
-            android:elevation="4dp">
-    </androidx.appcompat.widget.Toolbar>
+            app:titleTextColor="@color/colorWhite"
+            app:subtitleTextColor="@color/colorWhite"
+            android:elevation="4dp"
+            app:menu="@menu/menu_app_bar"/>
 
     <fragment
             android:id="@+id/nav_host_fragment"
