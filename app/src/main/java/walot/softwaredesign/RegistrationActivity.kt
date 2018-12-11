@@ -2,7 +2,7 @@ package walot.softwaredesign
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_regisrtation.*
@@ -16,6 +16,8 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_regisrtation)
 
+        progressBar.isIndeterminate = true
+
         auth = FirebaseAuth.getInstance()
 
         sign_in_btn.setOnClickListener {
@@ -23,6 +25,8 @@ class RegistrationActivity : AppCompatActivity() {
             val password = password_et.text.toString()
 
             if (validateFields()) {
+                error_tv.text = ""
+                progressBar.visibility = ProgressBar.VISIBLE
                 signIn(email, password)
             }
         }
@@ -32,6 +36,8 @@ class RegistrationActivity : AppCompatActivity() {
             val password = password_et.text.toString()
 
             if (validateFields()) {
+                error_tv.text = ""
+                progressBar.visibility = ProgressBar.VISIBLE
                 signUp(email, password)
             }
         }
@@ -68,6 +74,7 @@ class RegistrationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     this.finish()
                 } else {
+                    progressBar.visibility = ProgressBar.GONE
                     error_tv.text = task.exception!!.localizedMessage
                 }
             }
@@ -79,6 +86,7 @@ class RegistrationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     this.finish()
                 } else {
+                    progressBar.visibility = ProgressBar.GONE
                     error_tv.text = task.exception!!.localizedMessage
                 }
 
