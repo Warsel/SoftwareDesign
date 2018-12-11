@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 import database.Connections
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
@@ -57,7 +58,9 @@ class ProfileFragment : Fragment() {
         this.imageUri = uri
 
         if (user_image_iv != null) {
-            user_image_iv.setImageURI(imageUri)
+            Picasso.get()
+                .load(imageUri)
+                .into(user_image_iv)
         }
     }
 }

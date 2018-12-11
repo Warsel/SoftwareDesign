@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
 import database.Connections
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
@@ -36,6 +37,10 @@ class EditProfileFragment : Fragment() {
         view.user_email_et.setText(arguments!!.getString("email"), TextView.BufferType.EDITABLE)
         view.user_image_iv.setImageURI(Uri.parse(arguments!!.getString("image")))
 
+        if (imageUri != null) {
+            view.user_image_iv.setImageURI(imageUri)
+        }
+
         view.save_profile_btn.setOnClickListener {
             val name = view.user_name_et.text.toString()
             val surname = view.user_surname_et.text.toString()
@@ -45,6 +50,7 @@ class EditProfileFragment : Fragment() {
 
             val user = User(name, surname, phoneNumber, email)
             Connections.saveUser(user, image)
+            activity!!.onBackPressed()
         }
 
         view.load_image_from_gallery_btn.setOnClickListener {
@@ -66,12 +72,16 @@ class EditProfileFragment : Fragment() {
         when (requestCode) {
             IMAGE_FROM_GALLERY -> if (resultCode == RESULT_OK) {
                 val selectedImage = imageReturnedIntent!!.data
-                user_image_iv.setImageURI(selectedImage)
+                Picasso.get()
+                    .load(selectedImage)
+                    .into(user_image_iv)
                 imageUri = selectedImage
             }
             IMAGE_FROM_CAMERA -> if (resultCode == RESULT_OK) {
                 val selectedImage = imageReturnedIntent!!.extras.get("data") as Bitmap
-                user_image_iv.setImageURI(getImageUri(selectedImage))
+                Picasso.get()
+                    .load(getImageUri(selectedImage))
+                    .into(user_image_iv)
                 imageUri = getImageUri(selectedImage)
             }
         }

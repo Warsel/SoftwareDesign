@@ -33,4 +33,8 @@
     <string name="phone_number">Телефон:</string>
     <string name="email">Email:</string>
     <string name="no_information">Нет информации</string>
+    <string name="password_hint">Пароль</string>
+    <string name="auth">Авторизация</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
 </resources>

@@ -11,9 +11,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:background="@color/colorBlueDark"
-            app:titleTextColor="@color/colorWhite"
-            app:subtitleTextColor="@color/colorWhite"
             android:elevation="4dp"
             app:menu="@menu/menu_app_bar"/>
 
@@ -31,8 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:itemIconTint="@color/colorWhite"
-            app:itemTextColor="@color/colorWhite"
+            app:itemIconTint="@drawable/bottom_navigation_colors"
+            app:itemTextColor="@drawable/bottom_navigation_colors"
             app:menu="@menu/menu_bottom_navigation"/>
 
 </LinearLayout>

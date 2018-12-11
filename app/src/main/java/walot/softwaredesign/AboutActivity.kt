@@ -1,4 +1,4 @@
-package walot.softwaredesign.fragments
+package walot.softwaredesign
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -7,33 +7,36 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_about.*
-import kotlinx.android.synthetic.main.fragment_about.view.*
-import walot.softwaredesign.BuildConfig
-import walot.softwaredesign.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_about.*
 
-class AboutFragment : Fragment() {
+
+class AboutActivity : AppCompatActivity() {
 
     private val REQUEST_CODE = 101
     private val permissions = arrayOf(Manifest.permission.READ_PHONE_STATE)
 
     private val projectVersion = BuildConfig.VERSION_NAME
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_about, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_about)
+        setSupportActionBar(about_toolbar)
 
-        view.version_info_tv.text = getString(R.string.version_info, projectVersion)
+        val actionBar = supportActionBar
+        actionBar!!.setHomeButtonEnabled(true)
+        actionBar.setDisplayHomeAsUpEnabled(true)
+        actionBar.setTitle(R.string.about)
 
-        view.get_imei_btn.setOnClickListener {
-            if (checkSelfPermission(context!!, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                val builder = AlertDialog.Builder(context!!)
+        version_info_tv.text = getString(R.string.version_info, projectVersion)
+
+        get_imei_btn.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                val builder = AlertDialog.Builder(this)
                 builder.setMessage(getString(R.string.about_permission))
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         requestPermissions(permissions, REQUEST_CODE)
@@ -43,7 +46,16 @@ class AboutFragment : Fragment() {
                     .show()
             }
         }
-        return view
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                this.finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -54,7 +66,7 @@ class AboutFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkPermission() {
-        if (checkSelfPermission(context!!, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             imei_info_tv.text = getString(R.string.imei_info, getImei())
         }
     }
@@ -62,7 +74,7 @@ class AboutFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingPermission")
     fun getImei() : String {
-        val telephonyManager = activity!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val telephonyManager = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return telephonyManager.imei
     }
 
@@ -75,14 +87,14 @@ class AboutFragment : Fragment() {
                 }
                 else {
                     if (!shouldShowRequestPermissionRationale(permissions[0])) {
-                        val builder = AlertDialog.Builder(context!!)
+                        val builder = AlertDialog.Builder(this)
                         builder.setMessage(getString(R.string.set_permission_yourself))
                             .setPositiveButton(getString(R.string.clear)) { _, _ -> }
                             .create()
                             .show()
                     }
                     else {
-                        val builder = AlertDialog.Builder(context!!)
+                        val builder = AlertDialog.Builder(this)
                         builder.setMessage(getString(R.string.about_permission_decline))
                             .setPositiveButton(getString(R.string.sure)) { _, _ -> }
                             .setNegativeButton(getString(R.string.not_sure)) { _, _ ->

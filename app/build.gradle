@@ -57,13 +57,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'com.google.android.material:material:1.1.0-alpha01'
 
-    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha07'
-    implementation "android.arch.navigation:navigation-ui:1.0.0-alpha07"
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha08'
+    implementation "android.arch.navigation:navigation-ui:1.0.0-alpha08"
 
-    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-database:16.0.5'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 static def getVerName() {

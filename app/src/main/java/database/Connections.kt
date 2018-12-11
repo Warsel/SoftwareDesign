@@ -8,6 +8,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import models.User
 import java.io.File
+import androidx.annotation.NonNull
+import com.google.android.gms.tasks.OnFailureListener
+import com.squareup.picasso.Picasso
+import com.google.android.gms.tasks.OnSuccessListener
+
+
 
 object Connections {
 
@@ -48,6 +54,6 @@ object Connections {
     }
 
     init {
-        usersConnection.keepSynced(false)
+        usersConnection.keepSynced(true)
     }
 }
