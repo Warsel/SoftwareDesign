@@ -37,4 +37,6 @@
     <string name="auth">Авторизация</string>
     <string name="sign_in">Войти</string>
     <string name="sign_up">Зарегистрироваться</string>
+    <string name="enter_email">Введите почту</string>
+    <string name="enter_password">Введите пароль</string>
 </resources>

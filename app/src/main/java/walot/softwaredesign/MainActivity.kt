@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (mAuth!!.currentUser == null) {
-            //navController!!.navigate(R.id.registrationActivity)
+            navController!!.navigate(R.id.registrationActivity)
         }
     }
 }
