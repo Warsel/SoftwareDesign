@@ -34,7 +34,6 @@ class EditProfileFragment : Fragment() {
         view.user_name_et.setText(arguments!!.getString("name"), TextView.BufferType.EDITABLE)
         view.user_surname_et.setText(arguments!!.getString("surname"), TextView.BufferType.EDITABLE)
         view.user_phone_number_et.setText(arguments!!.getString("phoneNumber"), TextView.BufferType.EDITABLE)
-        view.user_email_et.setText(arguments!!.getString("email"), TextView.BufferType.EDITABLE)
         view.user_image_iv.setImageURI(Uri.parse(arguments!!.getString("image")))
 
         if (imageUri != null) {
@@ -45,10 +44,9 @@ class EditProfileFragment : Fragment() {
             val name = view.user_name_et.text.toString()
             val surname = view.user_surname_et.text.toString()
             val phoneNumber = view.user_phone_number_et.text.toString()
-            val email = view.user_email_et.text.toString()
             val image = imageUri
 
-            val user = User(name, surname, phoneNumber, email)
+            val user = User(name, surname, phoneNumber)
             Connections.saveUser(user, image)
             activity!!.onBackPressed()
         }

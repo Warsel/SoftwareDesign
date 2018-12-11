@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import database.Connections
@@ -18,18 +19,18 @@ import java.io.File
 
 class ProfileFragment : Fragment() {
 
-    var user: User? = null
+    var user: User = User()
     var imageUri: Uri? = null
+    var auth = FirebaseAuth.getInstance()!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
         view.edit_profile_btn.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("name", user!!.name)
-            bundle.putString("surname", user!!.surname)
-            bundle.putString("phoneNumber", user!!.phoneNumber)
-            bundle.putString("email", user!!.email)
+            bundle.putString("name", user.name)
+            bundle.putString("surname", user.surname)
+            bundle.putString("phoneNumber", user.phoneNumber)
             bundle.putString("image", imageUri.toString())
 
             Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_editProfileFragment, bundle)
@@ -43,14 +44,14 @@ class ProfileFragment : Fragment() {
         Connections.getUser({u -> getUserFromDatabase(u)}, {i -> getUserImageFromDatabase(i)})
     }
 
-    private fun getUserFromDatabase(user: User?) {
+    private fun getUserFromDatabase(user: User) {
         this.user = user
 
         if (user_name_tv != null) {
-            user_name_tv.text = this.user!!.name
-            user_surname_tv.text =  this.user!!.surname
-            user_phone_number_tv.text =  this.user!!.phoneNumber
-            user_email_tv.text =  this.user!!.email
+            user_name_tv.text = this.user.name
+            user_surname_tv.text =  this.user.surname
+            user_phone_number_tv.text =  this.user.phoneNumber
+            user_email_tv.text =  auth.currentUser!!.email
         }
     }
 

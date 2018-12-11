@@ -39,4 +39,6 @@
     <string name="sign_up">Зарегистрироваться</string>
     <string name="enter_email">Введите почту</string>
     <string name="enter_password">Введите пароль</string>
+    <string name="sign_out">Выйти</string>
+    <string name="sign_out_warning">Вы уверены, что хотите выйти</string>
 </resources>

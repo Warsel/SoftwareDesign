@@ -3,6 +3,7 @@ package walot.softwaredesign
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var mAuth: FirebaseAuth? = null
+    private var auth: FirebaseAuth? = null
     private var navController: NavController? = null
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -39,6 +40,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.sign_out) {
+            val builder = AlertDialog.Builder(this)
+            builder.setMessage(getString(R.string.sign_out_warning))
+                .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                    auth!!.signOut()
+                    navController!!.navigate(R.id.registrationActivity)
+                }
+                .setNegativeButton(getString(R.string.no)) { _, _ -> }
+                .create()
+                .show()
+        }
         NavigationUI.onNavDestinationSelected(item, navController!!)
         return super.onOptionsItemSelected(item)
     }
@@ -48,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        mAuth = FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         bottom_navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -57,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (mAuth!!.currentUser == null) {
+        if (auth!!.currentUser == null) {
             navController!!.navigate(R.id.registrationActivity)
         }
     }
