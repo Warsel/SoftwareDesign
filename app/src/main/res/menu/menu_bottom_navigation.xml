@@ -6,7 +6,7 @@
             android:icon="@drawable/ic_profile"/>
     <item
             android:id="@+id/newsFragment"
-            android:title="@string/page"
+            android:title="@string/rss_tape"
             android:icon="@drawable/ic_news"/>
     <item
             android:id="@+id/notPageFragment"

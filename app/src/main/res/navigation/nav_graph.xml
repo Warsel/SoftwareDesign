@@ -9,7 +9,7 @@
         <action android:id="@+id/action_profileFragment_to_editProfileFragment"
                 app:destination="@id/editProfileFragment"/><deepLink app:uri="sdapp://walot.softwaredesign/page/1"/>
     </fragment>
-    <fragment android:id="@+id/newsFragment" android:name="walot.softwaredesign.fragments.PageFragment"
+    <fragment android:id="@+id/newsFragment" android:name="walot.softwaredesign.fragments.NewsFragment"
               android:label="NewsFragment">
         <deepLink app:uri="sdapp://walot.softwaredesign/page/2"/>
     </fragment>

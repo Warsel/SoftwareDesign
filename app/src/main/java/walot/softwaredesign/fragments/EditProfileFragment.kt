@@ -20,6 +20,8 @@ import walot.softwaredesign.R
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import android.content.Context.MODE_PRIVATE
+import com.google.firebase.auth.FirebaseAuth
 
 
 class EditProfileFragment : Fragment() {
@@ -48,6 +50,7 @@ class EditProfileFragment : Fragment() {
 
             val user = User(name, surname, phoneNumber)
             Connections.saveUser(user, image)
+
             activity!!.onBackPressed()
         }
 

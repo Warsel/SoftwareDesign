@@ -14,16 +14,16 @@ import java.io.File
 object Connections {
 
     private var usersConnection = FirebaseDatabase.getInstance().getReference("users")
-    private var storageConnection = FirebaseStorage.getInstance().getReference("images")
+    public var storageConnection = FirebaseStorage.getInstance().getReference("images")
 
     fun saveUser(user: User, image: Uri?) {
         val auth = FirebaseAuth.getInstance().currentUser ?: return
 
         usersConnection.child(auth.uid).setValue(user)
 
-        if (image != null) {
-            storageConnection.child(auth.uid).putFile(image)
-        }
+        //if (image != null) {
+        //    storageConnection.child(auth.uid).putFile(image)
+        //}
     }
 
     fun getUser(callUser : (User) -> Unit, callImage : (Uri) -> Unit) {
@@ -45,11 +45,11 @@ object Connections {
 
         val localFile = File.createTempFile("images", "jpg")
 
-        storageConnection.child(auth.uid).getFile(localFile)
-            .addOnSuccessListener {
-                val imageUri = Uri.fromFile(localFile)
-                callImage(imageUri)
-            }
+        //storageConnection.child(auth.uid).getFile(localFile)
+        //    .addOnSuccessListener {
+        //        val imageUri = Uri.fromFile(localFile)
+        //        callImage(imageUri)
+        //    }
     }
 
     init {

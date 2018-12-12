@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import database.Connections
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 import models.User
 import walot.softwaredesign.R
-import java.io.File
 
 class ProfileFragment : Fragment() {
 
     var user: User = User()
     var imageUri: Uri? = null
-    var auth = FirebaseAuth.getInstance()!!
+    private var auth: FirebaseAuth? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
@@ -41,7 +39,17 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Connections.getUser({u -> getUserFromDatabase(u)}, {i -> getUserImageFromDatabase(i)})
+        user_name_tv.text = getString(R.string.no_information)
+        user_surname_tv.text =  getString(R.string.no_information)
+        user_phone_number_tv.text =  getString(R.string.no_information)
+
+        auth = FirebaseAuth.getInstance()
+
+        if (auth!!.currentUser != null) {
+            user_email_tv.text =  auth!!.currentUser!!.email
+        }
+
+        Connections.getUser({u -> getUserFromDatabase(u)}, {i -> getUserImageFromStorage(i)})
     }
 
     private fun getUserFromDatabase(user: User) {
@@ -51,17 +59,11 @@ class ProfileFragment : Fragment() {
             user_name_tv.text = this.user.name
             user_surname_tv.text =  this.user.surname
             user_phone_number_tv.text =  this.user.phoneNumber
-            user_email_tv.text =  auth.currentUser!!.email
         }
     }
 
-    private fun getUserImageFromDatabase(uri: Uri?) {
+    private fun getUserImageFromStorage(uri: Uri?) {
         this.imageUri = uri
-
-        if (user_image_iv != null) {
-            Picasso.get()
-                .load(imageUri)
-                .into(user_image_iv)
-        }
+        user_image_iv.setImageURI(imageUri)
     }
 }

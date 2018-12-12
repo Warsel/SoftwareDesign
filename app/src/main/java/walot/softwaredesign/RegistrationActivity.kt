@@ -26,6 +26,8 @@ class RegistrationActivity : AppCompatActivity() {
 
             if (validateFields()) {
                 error_tv.text = ""
+                sign_in_btn.isEnabled = false
+                sign_up_btn.isEnabled = false
                 progressBar.visibility = ProgressBar.VISIBLE
                 signIn(email, password)
             }
@@ -37,6 +39,8 @@ class RegistrationActivity : AppCompatActivity() {
 
             if (validateFields()) {
                 error_tv.text = ""
+                sign_in_btn.isEnabled = false
+                sign_up_btn.isEnabled = false
                 progressBar.visibility = ProgressBar.VISIBLE
                 signUp(email, password)
             }
@@ -74,6 +78,8 @@ class RegistrationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     this.finish()
                 } else {
+                    sign_in_btn.isEnabled = true
+                    sign_up_btn.isEnabled = true
                     progressBar.visibility = ProgressBar.GONE
                     error_tv.text = task.exception!!.localizedMessage
                 }
@@ -86,6 +92,8 @@ class RegistrationActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     this.finish()
                 } else {
+                    sign_in_btn.isEnabled = true
+                    sign_up_btn.isEnabled = true
                     progressBar.visibility = ProgressBar.GONE
                     error_tv.text = task.exception!!.localizedMessage
                 }
