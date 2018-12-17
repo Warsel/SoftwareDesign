@@ -48,7 +48,7 @@ class EditProfileFragment : Fragment() {
             val phoneNumber = view.user_phone_number_et.text.toString()
             val image = imageUri
 
-            val user = User(name, surname, phoneNumber)
+            val user = User(name, surname, phoneNumber, image.toString())
             Connections.saveUser(user, image)
 
             activity!!.onBackPressed()

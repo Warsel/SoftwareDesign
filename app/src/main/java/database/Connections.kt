@@ -21,9 +21,9 @@ object Connections {
 
         usersConnection.child(auth.uid).setValue(user)
 
-        //if (image != null) {
-        //    storageConnection.child(auth.uid).putFile(image)
-        //}
+        if (image != null) {
+            storageConnection.child(auth.uid).putFile(image)
+        }
     }
 
     fun getUser(callUser : (User) -> Unit, callImage : (Uri) -> Unit) {
@@ -45,11 +45,11 @@ object Connections {
 
         val localFile = File.createTempFile("images", "jpg")
 
-        //storageConnection.child(auth.uid).getFile(localFile)
-        //    .addOnSuccessListener {
-        //        val imageUri = Uri.fromFile(localFile)
-        //        callImage(imageUri)
-        //    }
+        storageConnection.child(auth.uid).getFile(localFile)
+            .addOnSuccessListener {
+                val imageUri = Uri.fromFile(localFile)
+                callImage(imageUri)
+            }
     }
 
     init {

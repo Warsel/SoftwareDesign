@@ -30,7 +30,7 @@ class AboutActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar!!.setHomeButtonEnabled(true)
         actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setTitle(R.string.about)
+        actionBar.title = getString(R.string.about)
 
         version_info_tv.text = getString(R.string.version_info, projectVersion)
 

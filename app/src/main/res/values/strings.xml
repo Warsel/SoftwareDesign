@@ -42,4 +42,8 @@
     <string name="sign_out">Выйти</string>
     <string name="sign_out_warning">Вы уверены, что хотите выйти</string>
     <string name="rss_tape">RSS-лента</string>
+    <string name="rss_source">Источник RSS</string>
+    <string name="get_news">Получить</string>
+    <string name="no_source_for_rss">У этого источника нет rss. Проверьте правильность ввода</string>
+    <string name="all_article">Вся статья</string>
 </resources>

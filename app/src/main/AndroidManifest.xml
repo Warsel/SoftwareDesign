@@ -23,6 +23,7 @@
                 android:name=".RegistrationActivity"
                 android:screenOrientation="portrait"/>
         <activity android:name=".AboutActivity"/>
+        <activity android:name=".WebPageActivity"/>
     </application>
 
 </manifest>

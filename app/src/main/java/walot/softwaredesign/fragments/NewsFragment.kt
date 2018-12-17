@@ -31,25 +31,37 @@ class NewsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
 
-        view.recyclerView!!.layoutManager = LinearLayoutManager(context)
+        view.recycler_view.layoutManager = LinearLayoutManager(context)
 
-        view.fetch_feed_btn!!.setOnClickListener {
+        view.fetch_feed_btn.setOnClickListener {
             FetchFeedTask().execute(null as Void?)
         }
 
-        view.swipeRefreshLayout!!.setOnRefreshListener {
+        view.swipe_refresh_layout.setOnRefreshListener {
             FetchFeedTask().execute(null as Void?)
         }
+
+        /*view.floating_action_btn.setOnClickListener {
+            val builder = AlertDialog.Builder(context!!)
+            builder.setMessage("Введите url адресс...")
+                .setView(view.rss_feed_et)
+                .setPositiveButton("Перейти") { _, _ ->
+
+                }
+                .create()
+                .show()
+        }*/
 
         return view
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
     fun parseFeed(inputStream: InputStream): List<RssFeedModel> {
-        var title: String? = null
-        var link: String? = null
-        var description: String? = null
-        var pubDate: String? = null
+        var title = ""
+        var link = ""
+        var description = ""
+        var pubDate = ""
+        var imageUri = ""
 
         var isItem = false
         val items = ArrayList<RssFeedModel>()
@@ -91,18 +103,27 @@ class NewsFragment : Fragment() {
                     name.equals("link", ignoreCase = true) -> link = result
                     name.equals("description", ignoreCase = true) -> description = result
                     name.equals("pubDate", ignoreCase = true) -> pubDate = result
+                    name.equals("enclosure", ignoreCase = true) -> {
+                        imageUri = xmlPullParser.getAttributeValue("", "url")
+                    }
                 }
 
-                if (title != null && link != null && description != null && pubDate != null) {
+                if (title.isNotEmpty() &&
+                    link.isNotEmpty() &&
+                    description.isNotEmpty()
+                    && pubDate.isNotEmpty() &&
+                    imageUri.isNotEmpty()) {
+
                     if (isItem) {
-                        val item = RssFeedModel(title!!, link!!, description!!, pubDate!!)
+                        val item = RssFeedModel(title, link, description, pubDate, imageUri)
                         items.add(item)
                     }
 
-                    title = null
-                    link = null
-                    description = null
-                    pubDate = null
+                    title = ""
+                    link = ""
+                    description = ""
+                    pubDate = ""
+                    imageUri = ""
                     isItem = false
                 }
             }
@@ -117,7 +138,7 @@ class NewsFragment : Fragment() {
         private var urlLink: String? = null
 
         override fun onPreExecute() {
-            swipeRefreshLayout!!.isRefreshing = true
+            swipe_refresh_layout!!.isRefreshing = true
             urlLink = rss_feed_et!!.text.toString()
         }
 
@@ -145,13 +166,16 @@ class NewsFragment : Fragment() {
             return false
         }
 
+        @SuppressLint("RestrictedApi")
         override fun onPostExecute(success: Boolean?) {
-            swipeRefreshLayout!!.isRefreshing = false
+            swipe_refresh_layout!!.isRefreshing = false
 
             if (success!!) {
-                recyclerView!!.adapter = RssFeedListAdapter(mFeedModelList!!)
+                linear_layout.visibility = View.GONE
+                floating_action_btn.visibility = View.VISIBLE
+                recycler_view!!.adapter = RssFeedListAdapter(activity!!, mFeedModelList!!)
             } else {
-                Toast.makeText(context, "Enter a valid Rss feed url", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, getString(R.string.no_source_for_rss), Toast.LENGTH_LONG).show()
             }
         }
     }

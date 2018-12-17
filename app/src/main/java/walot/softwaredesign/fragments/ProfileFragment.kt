@@ -59,11 +59,19 @@ class ProfileFragment : Fragment() {
             user_name_tv.text = this.user.name
             user_surname_tv.text =  this.user.surname
             user_phone_number_tv.text =  this.user.phoneNumber
+            if (this.user.imageUri.isNotEmpty()) {
+                Picasso.get()
+                    .load(this.user.imageUri)
+                    .into(user_image_iv)
+            }
         }
     }
 
     private fun getUserImageFromStorage(uri: Uri?) {
         this.imageUri = uri
-        user_image_iv.setImageURI(imageUri)
+
+        if (user_image_iv != null) {
+            user_image_iv.setImageURI(imageUri)
+        }
     }
 }

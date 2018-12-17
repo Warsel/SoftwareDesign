@@ -21,4 +21,6 @@
               android:label="RegistrationActivity"/>
     <activity android:id="@+id/aboutActivity" android:name="walot.softwaredesign.AboutActivity"
               android:label="AboutActivity"/>
+    <activity android:id="@+id/webPageActivity" android:name="walot.softwaredesign.WebPageActivity"
+              android:label="WebPageActivity"/>
 </navigation>
