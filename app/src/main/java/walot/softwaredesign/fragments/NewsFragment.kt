@@ -1,16 +1,17 @@
 package walot.softwaredesign.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Xml
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import database.Connections
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 import models.RssFeedListAdapter
@@ -26,7 +27,13 @@ import java.util.*
 
 class NewsFragment : Fragment() {
 
-    private var mFeedModelList: List<RssFeedModel>? = null
+    private var feedList: List<RssFeedModel>? = null
+    private var isConnected = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
@@ -41,18 +48,64 @@ class NewsFragment : Fragment() {
             FetchFeedTask().execute(null as Void?)
         }
 
-        /*view.floating_action_btn.setOnClickListener {
-            val builder = AlertDialog.Builder(context!!)
-            builder.setMessage("Введите url адресс...")
-                .setView(view.rss_feed_et)
-                .setPositiveButton("Перейти") { _, _ ->
-
-                }
-                .create()
-                .show()
-        }*/
+        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        isConnected = activeNetwork.isConnected
 
         return view
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        if (isConnected) {
+            val item = menu.findItem(R.id.source_of_rss)
+            item.isVisible = true
+        }
+        else {
+            val item = menu.findItem(R.id.no_internet)
+            item.isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.source_of_rss -> {
+                if (linear_layout.visibility == View.VISIBLE) {
+                    linear_layout.visibility = View.GONE
+                }
+                else if (linear_layout.visibility == View.GONE) {
+                    linear_layout.visibility = View.VISIBLE
+                }
+            }
+            R.id.no_internet -> {
+                Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show()
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Connections.getNews { list -> getCacheNews(list) }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (feedList != null) {
+            Connections.saveNews(feedList!!.takeLast(10))
+        }
+    }
+
+    private fun getCacheNews(list: List<RssFeedModel>) {
+        if (feedList == null && list.isNotEmpty() && linear_layout != null) {
+            if (list.isEmpty()) {
+                linear_layout.visibility = View.VISIBLE
+            }
+
+            feedList = list
+            linear_layout.visibility = View.GONE
+            recycler_view.adapter = RssFeedListAdapter(activity!!, feedList!!)
+        }
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
@@ -153,27 +206,21 @@ class NewsFragment : Fragment() {
 
                 val url = URL(urlLink)
                 val inputStream = url.openConnection().getInputStream()
-                mFeedModelList = parseFeed(inputStream)
+                feedList = parseFeed(inputStream)
 
                 return true
 
-            } catch (e: IOException) {
-
-            } catch (e: XmlPullParserException) {
-
-            }
+            } catch (e: Exception) { }
 
             return false
         }
 
-        @SuppressLint("RestrictedApi")
         override fun onPostExecute(success: Boolean?) {
-            swipe_refresh_layout!!.isRefreshing = false
+            swipe_refresh_layout.isRefreshing = false
 
             if (success!!) {
                 linear_layout.visibility = View.GONE
-                floating_action_btn.visibility = View.VISIBLE
-                recycler_view!!.adapter = RssFeedListAdapter(activity!!, mFeedModelList!!)
+                recycler_view.adapter = RssFeedListAdapter(activity!!, feedList!!)
             } else {
                 Toast.makeText(context, getString(R.string.no_source_for_rss), Toast.LENGTH_LONG).show()
             }

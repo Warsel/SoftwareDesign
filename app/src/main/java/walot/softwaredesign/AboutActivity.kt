@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -68,6 +69,7 @@ class AboutActivity : AppCompatActivity() {
     fun checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
             imei_info_tv.text = getString(R.string.imei_info, getImei())
+            get_imei_btn.visibility = View.GONE
         }
     }
 
@@ -84,6 +86,7 @@ class AboutActivity : AppCompatActivity() {
             REQUEST_CODE -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     imei_info_tv.text = getString(R.string.imei_info, getImei())
+                    get_imei_btn.visibility = View.GONE
                 }
                 else {
                     if (!shouldShowRequestPermissionRationale(permissions[0])) {

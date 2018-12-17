@@ -11,7 +11,6 @@
                 android:id="@+id/user_image_iv"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_launcher_background"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="30dp"
@@ -55,6 +54,8 @@
                 android:textColor="@color/colorBlack"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:maxLines="1"
+                android:inputType="text"
                 android:hint="@string/name_hint"/>
 
         <EditText
@@ -67,6 +68,8 @@
                 android:textColor="@color/colorBlack"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:maxLines="1"
+                android:inputType="text"
                 android:hint="@string/surname_hint"/>
 
         <EditText
@@ -79,6 +82,8 @@
                 android:textColor="@color/colorBlack"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:maxLines="1"
+                android:inputType="phone"
                 android:hint="@string/phone_number_hint"/>
 
         <Button

@@ -41,7 +41,7 @@ class RssFeedListAdapter(private val context: Context, private val mRssFeedModel
 
         Picasso.get()
             .load(rssFeedModel.imageUri)
-            .resize(350, 250)
+            .resize(600, 400)
             .onlyScaleDown()
             .into((holder.rssFeedView.image_iv))
 

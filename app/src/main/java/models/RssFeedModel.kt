@@ -6,4 +6,6 @@ class RssFeedModel(
     var description: String,
     var pubDate: String,
     var imageUri: String
-)
+) {
+    constructor(): this("", "", "", "", "")
+}

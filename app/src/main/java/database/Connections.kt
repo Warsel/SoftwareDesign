@@ -7,6 +7,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import models.RssFeedModel
 import models.User
 import java.io.File
 
@@ -14,7 +15,34 @@ import java.io.File
 object Connections {
 
     private var usersConnection = FirebaseDatabase.getInstance().getReference("users")
-    public var storageConnection = FirebaseStorage.getInstance().getReference("images")
+    private var usersNewsConnection = FirebaseDatabase.getInstance().getReference("users_news")
+
+    private var storageConnection = FirebaseStorage.getInstance().getReference("images")
+
+    fun saveNews(list: List<RssFeedModel>) {
+        val auth = FirebaseAuth.getInstance().currentUser ?: return
+        usersNewsConnection.child(auth.uid).setValue(list)
+    }
+
+    fun getNews(call: (List<RssFeedModel>) -> Unit) {
+        val auth = FirebaseAuth.getInstance().currentUser ?: return
+
+        usersNewsConnection.child(auth.uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(p0: DataSnapshot) {
+                val list = mutableListOf<RssFeedModel>()
+                p0.children.forEach {
+                        element -> list.add(element.getValue(RssFeedModel::class.java)!!)
+                }
+                if (list.isNotEmpty()) {
+                    call(list)
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+        })
+    }
 
     fun saveUser(user: User, image: Uri?) {
         val auth = FirebaseAuth.getInstance().currentUser ?: return
@@ -30,7 +58,6 @@ object Connections {
         val auth = FirebaseAuth.getInstance().currentUser ?: return
 
         usersConnection.child(auth.uid).addListenerForSingleValueEvent(object : ValueEventListener {
-
             override fun onDataChange(p0: DataSnapshot) {
                 val user = p0.getValue(User::class.java)
                 if (user != null) {
