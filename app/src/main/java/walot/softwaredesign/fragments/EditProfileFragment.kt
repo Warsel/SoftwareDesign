@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
 import database.Connections
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.*
 import kotlinx.android.synthetic.main.fragment_edit_profile.view.*
 import models.User
@@ -20,9 +21,6 @@ import walot.softwaredesign.R
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import android.content.Context.MODE_PRIVATE
-import android.view.Menu
-import com.google.firebase.auth.FirebaseAuth
 
 
 class EditProfileFragment : Fragment() {
@@ -34,15 +32,19 @@ class EditProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
+        setHasOptionsMenu(true)
 
         view.user_name_et.setText(arguments!!.getString("name"), TextView.BufferType.EDITABLE)
         view.user_surname_et.setText(arguments!!.getString("surname"), TextView.BufferType.EDITABLE)
         view.user_phone_number_et.setText(arguments!!.getString("phoneNumber"), TextView.BufferType.EDITABLE)
         imageUri = Uri.parse(arguments!!.getString("imageUri"))
-        
-        Picasso.get()
-            .load(imageUri)
-            .into(view.user_image_iv)
+
+        if (imageUri != Uri.EMPTY) {
+            Picasso.get()
+                .load(imageUri)
+                .resize(400, 300)
+                .into(view.user_image_iv)
+        }
 
         view.save_profile_btn.setOnClickListener {
             val name = view.user_name_et.text.toString()
@@ -69,6 +71,11 @@ class EditProfileFragment : Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        activity!!.toolbar.title = getString(R.string.editing)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageReturnedIntent: Intent?) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent)
 
@@ -79,6 +86,7 @@ class EditProfileFragment : Fragment() {
 
                 Picasso.get()
                     .load(imageUri)
+                    .resize(400, 300)
                     .into(user_image_iv)
             }
             IMAGE_FROM_CAMERA -> if (resultCode == RESULT_OK) {
@@ -87,6 +95,7 @@ class EditProfileFragment : Fragment() {
 
                 Picasso.get()
                     .load(imageUri)
+                    .resize(400, 300)
                     .into(user_image_iv)
             }
         }

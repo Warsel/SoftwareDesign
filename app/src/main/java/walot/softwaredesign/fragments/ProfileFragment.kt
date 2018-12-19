@@ -25,21 +25,16 @@ class ProfileFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-
         setHasOptionsMenu(true)
 
-        activity!!.toolbar.title = getString(R.string.profile)
-
-        view.user_email_tv.text =  auth.currentUser?.email ?: getString(R.string.no_information)
-
-        Connections.getUser({u -> getUserFromDatabase(u)}, {i -> getUserImageFromStorage(i)})
+        imageUri = Uri.EMPTY
 
         view.edit_profile_btn.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("name", user.name)
             bundle.putString("surname", user.surname)
             bundle.putString("phoneNumber", user.phoneNumber)
-            bundle.putString("imageUri", imageUri.toString())
+            bundle.putString("imageUri", user.imageUri)
 
             Navigation.findNavController(view).navigate(R.id.action_profileFragment_to_editProfileFragment, bundle)
         }
@@ -47,22 +42,37 @@ class ProfileFragment : Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        user_email_tv.text =  auth.currentUser?.email
+        Connections.getUser({u -> getUserFromDatabase(u)}, {i -> getUserImageFromStorage(i)})
+        activity!!.toolbar.title = getString(R.string.profile)
+    }
+
     private fun getUserFromDatabase(u: User) {
-        this.user = u
+        user = u
 
         if (user_name_tv != null) {
-            user_name_tv.text = this.user.name
-            user_surname_tv.text =  this.user.surname
-            user_phone_number_tv.text =  this.user.phoneNumber
+            user_name_tv.text = user.name
+            user_surname_tv.text = user.surname
+            user_phone_number_tv.text = user.phoneNumber
+
+            if (user.phoneNumber != "") {
+                Picasso.get()
+                    .load(user.imageUri)
+                    .resize(400, 300)
+                    .into(user_image_iv)
+            }
         }
     }
 
     private fun getUserImageFromStorage(uri: Uri) {
-        this.imageUri = uri
+        imageUri = uri
 
         if (user_image_iv != null) {
             Picasso.get()
-                .load(this.imageUri)
+                .load(imageUri)
+                .resize(400, 300)
                 .into(user_image_iv)
         }
     }

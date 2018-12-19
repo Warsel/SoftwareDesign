@@ -6,25 +6,22 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import database.Connections
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 import walot.softwaredesign.R
 
 class NotPageFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_not_page, container, false)
+        setHasOptionsMenu(true)
 
         return view
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val item = menu.findItem(R.id.source_of_rss)
-        item.isVisible = false
-        val item1 = menu.findItem(R.id.no_internet)
-        item1.isVisible = false
+    override fun onStart() {
+        super.onStart()
+        activity!!.toolbar.title = getString(R.string.not_page)
     }
 }

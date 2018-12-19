@@ -24,16 +24,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="lenta.ru/rss/news"
+                android:maxLines="1"
                 android:hint="@string/rss_source"/>
 
         <Button
                 android:id="@+id/fetch_feed_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorOrange"
                 android:textSize="15sp"
-                android:text="@string/get_news"/>
+                android:text="@string/ok"/>
+
+        <Button
+                android:id="@+id/gone_btn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/ic_drop_up"/>
 
     </LinearLayout>
 

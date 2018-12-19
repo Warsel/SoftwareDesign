@@ -13,14 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import database.Connections
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 import models.RssFeedListAdapter
 import models.RssFeedModel
 import org.xmlpull.v1.XmlPullParser
-import org.xmlpull.v1.XmlPullParserException
 import walot.softwaredesign.R
-import java.io.IOException
 import java.io.InputStream
 import java.net.URL
 import java.util.*
@@ -32,7 +31,6 @@ class NewsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
-
         setHasOptionsMenu(true)
 
         view.recycler_view.layoutManager = LinearLayoutManager(context)
@@ -45,32 +43,23 @@ class NewsFragment : Fragment() {
             FetchFeedTask().execute(null as Void?)
         }
 
+        view.gone_btn.setOnClickListener {
+            view.linear_layout.visibility = View.GONE
+        }
+
         return view
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        if (true) {
-            val item = menu.findItem(R.id.source_of_rss)
-            item.isVisible = true
-        }
-        else {
-            val item = menu.findItem(R.id.no_internet)
-            item.isVisible = true
-        }
+        menu.findItem(R.id.source_of_rss).isVisible = true
+        super.onPrepareOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.source_of_rss -> {
-                if (linear_layout.visibility == View.VISIBLE) {
-                    linear_layout.visibility = View.GONE
-                }
-                else if (linear_layout.visibility == View.GONE) {
-                    linear_layout.visibility = View.VISIBLE
-                }
-            }
-            R.id.no_internet -> {
-                Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show()
+        if (item.itemId == R.id.source_of_rss) {
+            when {
+                linear_layout.visibility == View.VISIBLE -> linear_layout.visibility = View.GONE
+                linear_layout.visibility == View.GONE -> linear_layout.visibility = View.VISIBLE
             }
         }
 
@@ -79,13 +68,26 @@ class NewsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Connections.getNews { list -> getCachedNews(list) }
+        activity!!.toolbar.title = getString(R.string.news)
+        Connections.getFeedSource { feedSource -> rss_feed_et.setText(feedSource) }
+
+        when {
+            getConnectionStatus() -> {
+                Connections.getCurrentNews { list -> getCachedNews(list) }
+            }
+            else -> {
+                Connections.getOfflineNews { list -> getCachedNews(list) }
+                Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
         if (feedList != null) {
-            Connections.saveNews(feedList!!)
+            Connections.saveCurrentNews(feedList!!.take(50))
+            Connections.saveOfflineNews(feedList!!.takeLast(10))
+            Connections.saveFeedSource(rss_feed_et.text.toString())
         }
     }
 
@@ -93,6 +95,11 @@ class NewsFragment : Fragment() {
         if (feedList == null && list.isNotEmpty() && linear_layout != null) {
             feedList = list
             linear_layout.visibility = View.GONE
+
+            if (resources.getBoolean(R.bool.is_tablet)) {
+                recycler_view.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.col_num))
+            }
+
             recycler_view.adapter = RssFeedListAdapter(activity!!, feedList!!)
         }
     }
@@ -203,11 +210,25 @@ class NewsFragment : Fragment() {
 
             if (success) {
                 linear_layout.visibility = View.GONE
-                // recycler_view.layoutManager = GridLayoutManager()
+
+                if (resources.getBoolean(R.bool.is_tablet)) {
+                    recycler_view.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.col_num))
+                }
+
                 recycler_view.adapter = RssFeedListAdapter(activity!!, feedList!!)
             } else {
-                Toast.makeText(context, getString(R.string.no_source_for_rss), Toast.LENGTH_LONG).show()
+                when {
+                    getConnectionStatus() -> Toast.makeText(context, getString(R.string.no_source_for_rss), Toast.LENGTH_LONG).show()
+                    else -> Toast.makeText(context, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show()
+                }
             }
         }
+    }
+
+    private fun getConnectionStatus() : Boolean {
+        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+
+        return activeNetwork?.isConnected ?: false
     }
 }
