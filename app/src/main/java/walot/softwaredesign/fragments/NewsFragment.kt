@@ -10,6 +10,7 @@ import android.util.Xml
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import database.Connections
 import kotlinx.android.synthetic.main.fragment_news.*
@@ -28,15 +29,11 @@ import java.util.*
 class NewsFragment : Fragment() {
 
     private var feedList: List<RssFeedModel>? = null
-    private var isConnected = false
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_news, container, false)
+
+        setHasOptionsMenu(true)
 
         view.recycler_view.layoutManager = LinearLayoutManager(context)
 
@@ -48,15 +45,11 @@ class NewsFragment : Fragment() {
             FetchFeedTask().execute(null as Void?)
         }
 
-        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = cm.activeNetworkInfo
-        isConnected = activeNetwork.isConnected
-
         return view
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        if (isConnected) {
+        if (true) {
             val item = menu.findItem(R.id.source_of_rss)
             item.isVisible = true
         }
@@ -66,8 +59,8 @@ class NewsFragment : Fragment() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.source_of_rss -> {
                 if (linear_layout.visibility == View.VISIBLE) {
                     linear_layout.visibility = View.GONE
@@ -86,29 +79,24 @@ class NewsFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        Connections.getNews { list -> getCacheNews(list) }
+        Connections.getNews { list -> getCachedNews(list) }
     }
 
     override fun onPause() {
         super.onPause()
         if (feedList != null) {
-            Connections.saveNews(feedList!!.takeLast(10))
+            Connections.saveNews(feedList!!)
         }
     }
 
-    private fun getCacheNews(list: List<RssFeedModel>) {
+    private fun getCachedNews(list: List<RssFeedModel>) {
         if (feedList == null && list.isNotEmpty() && linear_layout != null) {
-            if (list.isEmpty()) {
-                linear_layout.visibility = View.VISIBLE
-            }
-
             feedList = list
             linear_layout.visibility = View.GONE
             recycler_view.adapter = RssFeedListAdapter(activity!!, feedList!!)
         }
     }
 
-    @Throws(XmlPullParserException::class, IOException::class)
     fun parseFeed(inputStream: InputStream): List<RssFeedModel> {
         var title = ""
         var link = ""
@@ -125,9 +113,9 @@ class NewsFragment : Fragment() {
             xmlPullParser.setInput(input, null)
 
             xmlPullParser.nextTag()
+
             while (xmlPullParser.next() != XmlPullParser.END_DOCUMENT) {
                 val eventType = xmlPullParser.eventType
-
                 val name = xmlPullParser.name ?: continue
 
                 if (eventType == XmlPullParser.END_TAG) {
@@ -156,16 +144,11 @@ class NewsFragment : Fragment() {
                     name.equals("link", ignoreCase = true) -> link = result
                     name.equals("description", ignoreCase = true) -> description = result
                     name.equals("pubDate", ignoreCase = true) -> pubDate = result
-                    name.equals("enclosure", ignoreCase = true) -> {
-                        imageUri = xmlPullParser.getAttributeValue("", "url")
-                    }
+                    name.equals("enclosure", ignoreCase = true) -> imageUri = xmlPullParser.getAttributeValue("", "url")
                 }
 
-                if (title.isNotEmpty() &&
-                    link.isNotEmpty() &&
-                    description.isNotEmpty()
-                    && pubDate.isNotEmpty() &&
-                    imageUri.isNotEmpty()) {
+                if (title.isNotEmpty() && link.isNotEmpty() && description.isNotEmpty() &&
+                    pubDate.isNotEmpty() && imageUri.isNotEmpty()) {
 
                     if (isItem) {
                         val item = RssFeedModel(title, link, description, pubDate, imageUri)
@@ -188,11 +171,11 @@ class NewsFragment : Fragment() {
     @SuppressLint("StaticFieldLeak")
     private inner class FetchFeedTask : AsyncTask<Void, Void, Boolean>() {
 
-        private var urlLink: String? = null
+        private lateinit var urlLink: String
 
         override fun onPreExecute() {
-            swipe_refresh_layout!!.isRefreshing = true
-            urlLink = rss_feed_et!!.text.toString()
+            swipe_refresh_layout.isRefreshing = true
+            urlLink = rss_feed_et.text.toString()
         }
 
         override fun doInBackground(vararg voids: Void): Boolean? {
@@ -200,8 +183,8 @@ class NewsFragment : Fragment() {
                 return false
 
             try {
-                if (!urlLink!!.startsWith("http://") && !urlLink!!.startsWith("https://")) {
-                    urlLink = "https://" + urlLink!!
+                if (!urlLink.startsWith("http://") && !urlLink.startsWith("https://")) {
+                    urlLink = "https://$urlLink"
                 }
 
                 val url = URL(urlLink)
@@ -215,11 +198,12 @@ class NewsFragment : Fragment() {
             return false
         }
 
-        override fun onPostExecute(success: Boolean?) {
+        override fun onPostExecute(success: Boolean) {
             swipe_refresh_layout.isRefreshing = false
 
-            if (success!!) {
+            if (success) {
                 linear_layout.visibility = View.GONE
+                // recycler_view.layoutManager = GridLayoutManager()
                 recycler_view.adapter = RssFeedListAdapter(activity!!, feedList!!)
             } else {
                 Toast.makeText(context, getString(R.string.no_source_for_rss), Toast.LENGTH_LONG).show()

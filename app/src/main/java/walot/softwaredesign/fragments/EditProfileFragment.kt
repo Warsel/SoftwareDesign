@@ -29,7 +29,8 @@ class EditProfileFragment : Fragment() {
 
     private val IMAGE_FROM_GALLERY = 101
     private val IMAGE_FROM_CAMERA = 102
-    private var imageUri : Uri? = null
+
+    private lateinit var imageUri : Uri
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
@@ -37,11 +38,11 @@ class EditProfileFragment : Fragment() {
         view.user_name_et.setText(arguments!!.getString("name"), TextView.BufferType.EDITABLE)
         view.user_surname_et.setText(arguments!!.getString("surname"), TextView.BufferType.EDITABLE)
         view.user_phone_number_et.setText(arguments!!.getString("phoneNumber"), TextView.BufferType.EDITABLE)
-        view.user_image_iv.setImageURI(Uri.parse(arguments!!.getString("image")))
-
-        if (imageUri != null) {
-            view.user_image_iv.setImageURI(imageUri)
-        }
+        imageUri = Uri.parse(arguments!!.getString("imageUri"))
+        
+        Picasso.get()
+            .load(imageUri)
+            .into(view.user_image_iv)
 
         view.save_profile_btn.setOnClickListener {
             val name = view.user_name_et.text.toString()
@@ -74,17 +75,19 @@ class EditProfileFragment : Fragment() {
         when (requestCode) {
             IMAGE_FROM_GALLERY -> if (resultCode == RESULT_OK) {
                 val selectedImage = imageReturnedIntent!!.data
-                Picasso.get()
-                    .load(selectedImage)
-                    .into(user_image_iv)
                 imageUri = selectedImage
+
+                Picasso.get()
+                    .load(imageUri)
+                    .into(user_image_iv)
             }
             IMAGE_FROM_CAMERA -> if (resultCode == RESULT_OK) {
                 val selectedImage = imageReturnedIntent!!.extras.get("data") as Bitmap
+                imageUri = getUriFromBitmap(selectedImage)
+
                 Picasso.get()
-                    .load(getImageUri(selectedImage))
+                    .load(imageUri)
                     .into(user_image_iv)
-                imageUri = getImageUri(selectedImage)
             }
         }
     }
@@ -97,7 +100,7 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun getImageUri(image: Bitmap): Uri {
+    private fun getUriFromBitmap(image: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         image.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
 

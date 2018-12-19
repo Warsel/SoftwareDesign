@@ -1,98 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBlueDark">
 
-    <Button
-            android:id="@+id/about_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/colorBlueDark"
-            android:text="@string/about"
-            android:textColor="@color/colorWhite"/>
-
-    <LinearLayout
-            android:id="@+id/auth_form"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/about_btn"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp">
+            android:layout_gravity="center">
 
-        <TextView
+        <Button
+                android:id="@+id/about_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
-                android:layout_gravity="center"
-                android:textSize="30sp"
-                android:text="@string/auth"/>
-
-        <EditText
-                android:id="@+id/email_et"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/colorWhite"
-                android:layout_marginTop="30dp"
-                android:textSize="20sp"
-                android:textColor="@color/colorBlack"
-                android:inputType="textEmailAddress"
-                android:textAlignment="center"
-                android:hint="@string/email_hint"/>
-
-        <EditText
-                android:id="@+id/password_et"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorWhite"
-                android:textSize="20sp"
-                android:textColor="@color/colorBlack"
-                android:inputType="textPassword"
-                android:textAlignment="center"
-                android:hint="@string/password_hint"/>
-
-        <TextView
-                android:id="@+id/error_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/colorBlueDark"
+                android:text="@string/about"
                 android:textColor="@color/colorWhite"/>
 
-        <ProgressBar
-                android:id="@+id/progressBar"
+        <LinearLayout
+                android:id="@+id/auth_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                style="?android:attr/progressBarStyleHorizontal"/>
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/about_btn"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp">
 
-        <Button
-                android:id="@+id/sign_in_btn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorOrange"
-                android:textSize="20sp"
-                android:text="@string/sign_in"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_gravity="center"
+                    android:textSize="30sp"
+                    android:text="@string/auth"/>
 
-        <Button
-                android:id="@+id/sign_up_btn"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorOrange"
-                android:textSize="20sp"
-                android:text="@string/sign_up"/>
-    </LinearLayout>
+            <EditText
+                    android:id="@+id/email_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorWhite"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"
+                    android:inputType="textEmailAddress"
+                    android:textAlignment="center"
+                    android:hint="@string/email_hint"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                    android:id="@+id/password_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"
+                    android:inputType="textPassword"
+                    android:textAlignment="center"
+                    android:hint="@string/password_hint"/>
+
+            <TextView
+                    android:id="@+id/error_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhite"/>
+
+            <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    style="?android:attr/progressBarStyleHorizontal"/>
+
+            <Button
+                    android:id="@+id/sign_in_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorOrange"
+                    android:textSize="20sp"
+                    android:text="@string/sign_in"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_gravity="center_horizontal"
+                    android:text="или"/>
+
+            <Button
+                    android:id="@+id/sign_up_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@color/colorOrange"
+                    android:textSize="20sp"
+                    android:text="@string/sign_up"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

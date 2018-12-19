@@ -4,21 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.*
 import kotlinx.android.synthetic.main.activity_regisrtation.*
+import java.lang.Exception
 
 
 class RegistrationActivity : AppCompatActivity() {
 
-    private var auth: FirebaseAuth? = null
+    private var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_regisrtation)
 
         progressBar.isIndeterminate = true
-
-        auth = FirebaseAuth.getInstance()
 
         sign_in_btn.setOnClickListener {
             val email = email_et.text.toString()
@@ -81,7 +81,7 @@ class RegistrationActivity : AppCompatActivity() {
                     sign_in_btn.isEnabled = true
                     sign_up_btn.isEnabled = true
                     progressBar.visibility = ProgressBar.GONE
-                    error_tv.text = task.exception!!.localizedMessage
+                    error_tv.text = getErrorMessage(task.exception!!)
                 }
             }
     }
@@ -95,9 +95,22 @@ class RegistrationActivity : AppCompatActivity() {
                     sign_in_btn.isEnabled = true
                     sign_up_btn.isEnabled = true
                     progressBar.visibility = ProgressBar.GONE
-                    error_tv.text = task.exception!!.localizedMessage
+                    error_tv.text = getErrorMessage(task.exception!!)
                 }
-
             }
+    }
+
+    private fun getErrorMessage(exception: Exception) : String {
+        var exceptionMessage = getString(R.string.error_unknown)
+
+        when(exception) {
+            is FirebaseAuthEmailException -> exceptionMessage = getString(R.string.error_invalid_email)
+            is FirebaseAuthInvalidUserException -> exceptionMessage = getString(R.string.error_user_not_exist)
+            is FirebaseAuthInvalidCredentialsException -> exceptionMessage = getString(R.string.error_invalid_password)
+            is FirebaseNetworkException -> exceptionMessage = getString(R.string.error_no_connection)
+            is FirebaseAuthUserCollisionException -> exceptionMessage = getString(R.string.error_user_exists)
+        }
+
+        return exceptionMessage
     }
 }

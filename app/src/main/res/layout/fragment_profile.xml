@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -10,8 +12,9 @@
         <ImageView
                 android:id="@+id/user_image_iv"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:src="@drawable/ic_launcher_background"
+                android:layout_height="250dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_launcher_foreground"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -26,6 +29,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textColor="@color/colorBlack"
+                android:textStyle="bold"
                 android:layout_marginStart="30dp"
                 android:text="@string/name"/>
 
@@ -51,6 +55,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textColor="@color/colorBlack"
+                android:textStyle="bold"
                 android:layout_marginStart="30dp"
                 android:text="@string/surname"/>
 
@@ -75,6 +80,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textColor="@color/colorBlack"
+                android:textStyle="bold"
                 android:layout_marginStart="30dp"
                 android:text="@string/phone_number"/>
 
@@ -99,6 +105,7 @@
                 android:layout_marginTop="30dp"
                 android:textSize="20sp"
                 android:textColor="@color/colorBlack"
+                android:textStyle="bold"
                 android:layout_marginStart="30dp"
                 android:text="@string/email"/>
 

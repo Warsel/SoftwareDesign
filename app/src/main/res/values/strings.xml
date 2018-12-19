@@ -25,8 +25,8 @@
     <string name="surname_hint">Фамилия</string>
     <string name="phone_number_hint">Номер телефона</string>
     <string name="email_hint">Почтовый адрес</string>
-    <string name="load_image_from_gallery">Загрузить из галлереи</string>
-    <string name="make_photo">Сделать фото</string>
+    <string name="load_image_from_gallery">Галерея</string>
+    <string name="make_photo">Камера</string>
 
     <string name="name">Имя:</string>
     <string name="surname">Фамилия:</string>
@@ -47,4 +47,12 @@
     <string name="no_source_for_rss">У этого источника нет rss. Проверьте правильность ввода</string>
     <string name="all_article">Вся статья</string>
     <string name="no_internet_connection">Нету подкдючения к интернету</string>
+    <string name="error_unknown">Непридвиденная ошибка.</string>
+    <string name="error_invalid_email">Неверный формат почты.</string>
+    <string name="error_user_not_exist">Такого пользователь нет. Зарегистрируйтесь.</string>
+    <string name="error_invalid_password">Неверный формат пароля. Пароль должен сосоять хотя бы из 6 латинских символов
+        и цифр.
+    </string>
+    <string name="error_no_connection">Вы не подключены к интернету.</string>
+    <string name="error_user_exists">Такой пользователь уже зарегистрирован.</string>
 </resources>

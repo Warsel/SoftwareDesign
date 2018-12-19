@@ -70,12 +70,9 @@ object Connections {
             }
         })
 
-        val localFile = File.createTempFile("images", "jpg")
-
-        storageConnection.child(auth.uid).getFile(localFile)
+        storageConnection.child(auth.uid).downloadUrl
             .addOnSuccessListener {
-                val imageUri = Uri.fromFile(localFile)
-                callImage(imageUri)
+                uri -> callImage(uri)
             }
     }
 
