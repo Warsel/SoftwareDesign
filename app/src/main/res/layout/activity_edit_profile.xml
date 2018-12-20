@@ -8,14 +8,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/edit_profile_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:background="@color/colorBlueDark"
+                android:elevation="4dp"
+                app:menu="@menu/menu_app_bar"/>
+
         <ImageView
                 android:id="@+id/user_image_iv"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_launcher_foreground"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_profile_toolbar"
                 android:layout_margin="10dp"/>
 
         <Button

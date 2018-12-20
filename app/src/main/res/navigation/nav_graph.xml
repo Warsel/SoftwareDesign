@@ -6,8 +6,9 @@
 
     <fragment android:id="@+id/profileFragment" android:name="walot.softwaredesign.fragments.ProfileFragment"
               android:label="ProfileFragment">
-        <action android:id="@+id/action_profileFragment_to_editProfileFragment"
-                app:destination="@id/editProfileFragment"/><deepLink app:uri="sdapp://walot.softwaredesign/page/1"/>
+        <deepLink app:uri="sdapp://walot.softwaredesign/page/1"/>
+        <action android:id="@+id/action_profileFragment_to_editProfileActivity"
+                app:destination="@id/editProfileActivity"/>
     </fragment>
     <fragment android:id="@+id/newsFragment" android:name="walot.softwaredesign.fragments.NewsFragment"
               android:label="NewsFragment">
@@ -15,12 +16,12 @@
     </fragment>
     <fragment android:id="@+id/notPageFragment" android:name="walot.softwaredesign.fragments.NotPageFragment"
               android:label="NotPageFragment"><deepLink app:uri="sdapp://walot.softwaredesign/page/3"/></fragment>
-    <fragment android:id="@+id/editProfileFragment" android:name="walot.softwaredesign.fragments.EditProfileFragment"
-              android:label="EditProfileFragment"/>
     <activity android:id="@+id/registrationActivity" android:name="walot.softwaredesign.RegistrationActivity"
               android:label="RegistrationActivity"/>
     <activity android:id="@+id/aboutActivity" android:name="walot.softwaredesign.AboutActivity"
               android:label="AboutActivity"/>
     <activity android:id="@+id/webPageActivity" android:name="walot.softwaredesign.WebPageActivity"
               android:label="WebPageActivity"/>
+    <activity android:id="@+id/editProfileActivity" android:name="walot.softwaredesign.EditProfileActivity"
+              android:label="EditProfileActivity"/>
 </navigation>

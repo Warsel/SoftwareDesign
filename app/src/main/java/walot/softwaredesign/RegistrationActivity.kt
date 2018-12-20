@@ -73,7 +73,7 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun signIn(email: String, password: String) {
-        auth!!.signInWithEmailAndPassword(email, password)
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     this.finish()
@@ -87,7 +87,7 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun signUp(email: String, password: String) {
-        auth!!.createUserWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     this.finish()

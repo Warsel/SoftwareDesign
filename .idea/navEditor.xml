@@ -20,13 +20,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="editProfileFragment">
+                  <entry key="editProfileActivity">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="265" />
-                            <option name="y" value="340" />
+                            <option name="x" value="235" />
+                            <option name="y" value="338" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -67,7 +67,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_profileFragment_to_editProfileFragment">
+                            <entry key="action_profileFragment_to_editProfileActivity">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -84,6 +84,18 @@
                           <Point>
                             <option name="x" value="5" />
                             <option name="y" value="640" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="saveChangesDialogFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-265" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

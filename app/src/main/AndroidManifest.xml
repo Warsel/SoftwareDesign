@@ -23,6 +23,7 @@
         <activity android:name=".RegistrationActivity"/>
         <activity android:name=".AboutActivity"/>
         <activity android:name=".WebPageActivity"/>
+        <activity android:name=".EditProfileActivity"/>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import database.Connections
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -62,8 +63,8 @@ class MainActivity : AppCompatActivity() {
             builder.setMessage(getString(R.string.sign_out_warning))
                 .setPositiveButton(getString(R.string.yes)) { _, _ ->
                     auth.signOut()
-                    navController.navigate(R.id.registrationActivity)
                     this.finish()
+                    navController.navigate(R.id.registrationActivity)
                 }
                 .setNegativeButton(getString(R.string.no)) { _, _ -> }
                 .create()

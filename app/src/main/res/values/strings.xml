@@ -58,4 +58,6 @@
     <string name="editing">Редактирование</string>
     <string name="change_source_of_rss">Источкик RSS</string>
     <string name="ok">OK</string>
+    <string name="warning_about_saving">Ваши новые данные не сохранены. Сохранить?</string>
+    <string name="or">или</string>
 </resources>
